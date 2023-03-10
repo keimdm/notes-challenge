@@ -3,6 +3,7 @@ const router = require("./routes");
 const fs = require("fs");
 const path = require('path');
 const PORT = process.env.PORT || 3001;
+const generateID = require('generate-unique-id');
 
 const app = express();
 
@@ -28,9 +29,18 @@ app.get("/api/notes", (req, res) => {
 app.post("/api/notes", (req, res) => {
     const { title, text } = req.body;
     if (title && text) {
+        const newEntry = {
+            title: title,
+            text: text,
+            id: generateID({
+                length: 20,
+                useLetters: true
+            })
+        }
         fs.readFile("./db/db.json", "utf8", (err, data) => {
             let dataArray = JSON.parse(data);
-            dataArray.push(req.body);
+            dataArray.push(newEntry);
+
             fs.writeFile("./db/db.json", JSON.stringify(dataArray), (err, data) =>  {
                 res.json("Note successfully added!");
             });
