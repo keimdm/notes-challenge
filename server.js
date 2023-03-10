@@ -1,5 +1,4 @@
 const express = require('express');
-const router = require("./routes");
 const fs = require("fs");
 const path = require('path');
 const PORT = process.env.PORT || 3001;
@@ -74,8 +73,6 @@ app.delete("/api/notes/:id", (req, res) => {
         res.json("Failed to add note - please try again.");
     }
 });
-
-//app.use(('/'), router);
 
 app.listen(PORT, () => {
     console.log(`Example app listening at http://localhost:${PORT}`);
