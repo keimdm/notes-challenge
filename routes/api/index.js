@@ -4,6 +4,6 @@ const notesRouter = require("./notesRouter.js");
 
 console.log("api index");
 
-apiRouter.use('/api/notes', notesRouter);
+apiRouter.use('/', notesRouter);
 
 module.exports = apiRouter;
