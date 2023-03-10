@@ -51,6 +51,30 @@ app.post("/api/notes", (req, res) => {
     }
 });
 
+app.delete("/api/notes/:id", (req, res) => {
+    const id = req.params.id;
+    if (id) {
+        fs.readFile("./db/db.json", "utf8", (err, data) => {
+            let dataArray = JSON.parse(data);
+            let indexToRemove;
+            for (i = 0; i < dataArray.length; i++) {
+                if (dataArray[i].id === id) {
+                    indexToRemove = i;
+                }
+            }
+            if (typeof indexToRemove !== undefined) {
+                dataArray.splice(indexToRemove, 1);
+            }
+            fs.writeFile("./db/db.json", JSON.stringify(dataArray), (err, data) =>  {
+                res.json("Note successfully removed!");
+            });
+        });
+    }
+    else {
+        res.json("Failed to add note - please try again.");
+    }
+});
+
 //app.use(('/'), router);
 
 app.listen(PORT, () => {
